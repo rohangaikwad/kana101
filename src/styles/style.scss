@@ -1,0 +1,70 @@
+@import "reset";
+@import "utils";
+@import "fonts";
+
+@mixin light-theme {
+--bg-clr: #f1f1f1;
+}
+
+@mixin dark-theme {
+    --bg-clr: #333333;
+}
+
+:root {
+    @include light-theme;
+
+    &.dark {
+        @include dark-theme;
+    }
+    @media (prefers-color-scheme: dark) {
+        @include dark-theme;
+    }
+}
+
+body {
+    background-color: var(--bg-clr); color: #333;
+}
+
+
+section#char-select {
+    #char-list {
+        @include landscape { display: flex; justify-content: space-evenly; }
+
+        li {
+            @include portrait {
+                display: grid; grid-template-columns: repeat(6, 1fr); margin-bottom: 10px;
+            }
+
+            .char {
+                @include flex-center;
+                @include landscape { margin-bottom: 25px; }
+
+                span {
+                    @include flex-center; position: relative; text-align: center; width: 30px; height: 30px; border-radius: 100%; cursor: pointer; padding-bottom: 5px; font-size: 14px; font-weight: 600; font-family: Kokoro;
+                    &:before { content: ""; height: 1px; width: 40%; position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%); background-color: #e1e1e1; }
+                    &.active {
+                        background-color: white;
+                        &::after { content: ""; width: 8px; height: 8px; background-color: blue; position: absolute; border-radius: 8px; right: 0; top:0; }
+                    }
+                }
+            }
+
+            .toggle-row {
+                @include flex-center;
+                .btn { display: flex; width: 30px; height: 30px; border-radius: 100%; border: solid 1px #fff; background-color: white; cursor: pointer; }
+            }
+        }
+    }
+}
+
+section#study {
+    display: flex; flex-direction: column;
+    #characters {
+        @include flex-center; position: relative; background-color: yellow; height: 200px;
+        .char {
+            position: absolute; font-size: 60px; font-weight: 800; font-family: Kokoro; opacity: 0; visibility: hidden;
+            &.active { visibility: visible; opacity: 1; }
+        }
+
+    }
+}
