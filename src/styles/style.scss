@@ -2,27 +2,35 @@
 @import "utils";
 @import "fonts";
 
-@mixin light-theme {
+@mixin light-theme-vars {
 --bg-clr: #f1f1f1;
 }
 
-@mixin dark-theme {
+@mixin dark-theme-vars {
     --bg-clr: #333333;
 }
 
 :root {
-    @include light-theme;
+    --app-height: 100vh;
+
+    @include light-theme-vars;
 
     &.dark {
-        @include dark-theme;
+        @include dark-theme-vars;
     }
     @media (prefers-color-scheme: dark) {
-        @include dark-theme;
+        @include dark-theme-vars;
     }
 }
 
+html {
+    font-size: calc(var(--app-height) / 30); height: 100%;
+}
+
 body {
-    background-color: var(--bg-clr); color: #333;
+    background-color: var(--bg-clr); 
+    @include light-theme { color: #333; }
+    @include dark-theme { color: #f1f1f1; }
 }
 
 
@@ -32,7 +40,7 @@ section#char-select {
 
         li {
             @include portrait {
-                display: grid; grid-template-columns: repeat(6, 1fr); margin-bottom: 10px;
+                display: grid; grid-template-columns: repeat(6, 1fr); margin-bottom: 5px; column-gap: 5px;
             }
 
             .char {
@@ -40,18 +48,21 @@ section#char-select {
                 @include landscape { margin-bottom: 25px; }
 
                 span {
-                    @include flex-center; position: relative; text-align: center; width: 30px; height: 30px; border-radius: 100%; cursor: pointer; padding-bottom: 5px; font-size: 14px; font-weight: 600; font-family: Kokoro;
-                    &:before { content: ""; height: 1px; width: 40%; position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%); background-color: #e1e1e1; }
+                    @include flex-center; position: relative; text-align: center; width: 100%; height: 30px; border-radius: 5px; cursor: pointer; padding-bottom: 5px; font-size: 14px; font-weight: 600; font-family: Kokoro;
+                    //&:before { content: ""; height: 1px; width: 100%; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); background-color: #e1e1e1; }
+
                     &.active {
                         background-color: white;
-                        &::after { content: ""; width: 8px; height: 8px; background-color: blue; position: absolute; border-radius: 8px; right: 0; top:0; }
+                        // &:after { content: ""; width: 8px; height: 8px; background-color: blue; position: absolute; border-radius: 8px; right: 0; top:0; }
                     }
+
+                    .icon { width: 20px; height: 20px; }
                 }
             }
 
             .toggle-row {
                 @include flex-center;
-                .btn { display: flex; width: 30px; height: 30px; border-radius: 100%; border: solid 1px #fff; background-color: white; cursor: pointer; }
+                .btn { display: flex; width: 30px; height: 30px; border-radius: 5px; border: solid 1px #fff; background-color: white; cursor: pointer; }
             }
         }
     }
@@ -59,12 +70,28 @@ section#char-select {
 
 section#study {
     display: flex; flex-direction: column;
+
+    #progress {
+        width: 100%; height: 10px; background: gray; border-radius: 10px; overflow: hidden;
+        .progress-bar { height: 100%; background-color: red; width: 0; transition: 0.2s; }
+    }
+
     #characters {
         @include flex-center; position: relative; background-color: yellow; height: 200px;
         .char {
-            position: absolute; font-size: 60px; font-weight: 800; font-family: Kokoro; opacity: 0; visibility: hidden;
-            &.active { visibility: visible; opacity: 1; }
+            position: absolute; font-size: px-to-rem(60); font-weight: 800; font-family: Kokoro; opacity: 0; visibility: hidden; transform: scale(0.8); transition: 0s;
+            &.active { visibility: visible; opacity: 1; transform: scale(1); transition: 0.4s cubic-bezier(0.4, 1.8, 0.7, 1); }
         }
+    }
 
+    #answer-input {
+        display: flex; justify-content: center;
+        input { background: transparent; border: none; border-bottom: solid 1px #333; font-size: 24px; width: 60px; text-align: center; }
+    }
+}
+
+.icon {
+    &.check{
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 450 320'%3E%3Cpath fill='black' d='m438.6 9.4c12.5 12.5 12.5 32.7 0 45.2l-256 256c-12.5 12.5-32.7 12.5-45.2 0l-128.028-128c-12.496-12.5-12.496-32.7 0-45.2 12.498-12.5 32.758-12.5 45.258 0l104.47 105.3 234.3-233.3c12.5-12.52 32.7-12.52 45.2 0h0z'%3E%3C/path%3E%3C/svg%3E");
     }
 }

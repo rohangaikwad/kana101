@@ -45,10 +45,11 @@ const Characters = ({type}) => {
                 {row.map((c,i) => (
                     <div key={i} className="char">
                         <span
-                            onClick={() => selectChar([c.hex], selectedChars.indexOf(c.hex) === -1)}
+                            onClick={() => selectChar([c?.hex], selectedChars.indexOf(c?.hex) === -1)}
                             className={c !== null && selectedChars.indexOf(c.hex) > -1 ? "active" : ""} 
                             data-null={c === null}>
                             {c !== null && c.char}
+                            {/* {c !== null && selectedChars.indexOf(c.hex) > -1 && <div className="icon check" />} */}
                         </span>
                     </div>
                 ))}

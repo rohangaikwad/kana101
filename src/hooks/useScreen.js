@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -13,6 +13,8 @@ function getWindowDimensions() {
 
 export default function useScreen() {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const appHeight = useRef(window.innerHeight);
+  //console.log(window.innerHeight)
 
   useEffect(() => {
     function handleResize() {
@@ -23,5 +25,5 @@ export default function useScreen() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return windowDimensions;
+  return {...windowDimensions, appHeight: appHeight.current};
 }

@@ -1,3 +1,9 @@
+@function px-to-rem($size) {
+    $fs: 18;
+    $ratio: 379/500; // desiered width / actual design width
+    @return (($size/$fs) * $ratio) + rem;
+}
+
 @mixin mobile {
     @media screen and (max-width: 767px) {
         @content;
@@ -30,4 +36,16 @@
 
 @mixin flex-center {
     display: flex; justify-content: center; align-items: center;
+}
+
+@mixin light-theme {
+    html.light & {
+        @content;
+    }
+}
+
+@mixin dark-theme {
+    html.dark & {
+        @content;
+    }
 }
